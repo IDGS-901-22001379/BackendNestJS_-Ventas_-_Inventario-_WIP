@@ -22,19 +22,26 @@ El objetivo es convertirlo en una **API escalable** para la gestión integral de
 
 ProgramaIntegralVentas/
 │── api/ # Código fuente principal
-│ ├── prisma/ # Configuración de Prisma y esquema de DB
-│ ├── src/ # Código NestJS
-│ │ ├── auth/ # Módulo de autenticación (login, register, JWT)
-│ │ ├── users/ # Módulo de usuarios (CRUD)
-│ │ └── app.module.ts
-│ └── .env # Variables de entorno
-│── docker-compose.yml # Configuración de PostgreSQL en Docker
-│── package.json # Dependencias y scripts
-│── pnpm-lock.yaml # Lockfile de pnpm
-│── README.md # Documentación
 
-yaml
-Copiar código
+│ ├── prisma/ # Configuración de Prisma y esquema de DB
+
+│ ├── src/ # Código NestJS
+
+│ │ ├── auth/ # Módulo de autenticación (login, register, JWT)
+
+│ │ ├── users/ # Módulo de usuarios (CRUD)
+
+│ │ └── app.module.ts
+
+│ └── .env # Variables de entorno
+
+│── docker-compose.yml # Configuración de PostgreSQL en Docker
+
+│── package.json # Dependencias y scripts
+
+│── pnpm-lock.yaml # Lockfile de pnpm
+
+│── README.md # Documentación
 
 ---
 
@@ -46,34 +53,22 @@ Copiar código
    cd ProgramaIntegralVentas/api
 Instalar dependencias
 
-bash
-Copiar código
 pnpm install
 Levantar PostgreSQL con Docker
 
-bash
-Copiar código
 docker-compose up -d
 Aplicar migraciones de Prisma
 
-bash
-Copiar código
 pnpm prisma migrate dev
 Iniciar la API
 
-bash
-Copiar código
 pnpm start:dev
 🔑 Autenticación JWT
 Actualmente ya están disponibles los siguientes endpoints:
-
 Registro de usuario
 POST http://localhost:3000/auth/register
 
 Body ejemplo:
-
-json
-Copiar código
 {
   "email": "admin@mail.com",
   "password": "secret123",
@@ -84,8 +79,6 @@ POST http://localhost:3000/auth/login
 
 Body ejemplo:
 
-json
-Copiar código
 {
   "email": "admin@mail.com",
   "password": "secret123"
@@ -97,8 +90,6 @@ GET http://localhost:3000/users/me
 
 Header:
 
-makefile
-Copiar código
 Authorization: Bearer TOKEN_AQUI
 📌 Estado del proyecto
 🔹 Actualmente implementado:
