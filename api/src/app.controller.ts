@@ -1,18 +1,32 @@
+// src/app.controller.ts
 import { Controller, Get } from '@nestjs/common';
-import { PrismaService } from './prisma/prisma.service';
+import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly appService: AppService) {}
 
+  // Endpoint básico para probar el servidor
   @Get()
   getHello() {
-    return { message: 'Hello World from NestJS + Prisma 🚀' };
+    return this.appService.getHello();
   }
 
+  // Healthcheck de base de datos (cuenta usuarios)
   @Get('health/db')
-  async dbHealth() {
-    const users = await this.prisma.user.count();
-    return { ok: true, users };
+  dbHealth() {
+    return this.appService.dbHealth();
+  }
+
+  // Healthcheck de Redis (ping + latencia)
+  @Get('health/redis')
+  redisHealth() {
+    return this.appService.redisHealth();
+  }
+
+  // Health combinado (DB + Redis)
+  @Get('health/all')
+  allHealth() {
+    return this.appService.allHealth();
   }
 }
