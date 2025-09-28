@@ -49,7 +49,7 @@ ProgramaIntegralVentas/
 
 1. **Clonar el repositorio**
    ```bash
-   git clone https://github.com/TU_USUARIO/ProgramaIntegralVentas.git
+   git clone https://github.com/TU_USUARIO/BackendNestJS_-Ventas_-_Inventario-_WIP.git
    cd ProgramaIntegralVentas/api
 Instalar dependencias
 
