@@ -23,6 +23,7 @@ Swagger — Documentación interactiva.
 📂 Estructura del proyecto
 
 ProgramaIntegralVentas/
+
 │── api/                     # Código fuente principal
 
 │   ├── prisma/              # Configuración de Prisma y esquema de DB (schema + migrations)
