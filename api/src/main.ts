@@ -7,19 +7,29 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // ✅ Validación global
+  // CORS (ajusta orígenes según tu front)
+  app.enableCors({
+    origin: ['http://localhost:4200', 'http://localhost:5173', 'http://localhost:3000'],
+    credentials: true,
+  });
+
+  // Prefijo global para la API
+  app.setGlobalPrefix('api');
+
+  // Validación global de DTOs
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // elimina propiedades que no están en DTO
-      forbidNonWhitelisted: true, // lanza error si mandan propiedades extra
-      transform: true, // convierte tipos automáticamente
+      whitelist: true, // elimina propiedades no declaradas en DTO
+      forbidNonWhitelisted: true, // error si mandan props extra
+      transform: true, // transforma tipos (string->number/bool)
+      transformOptions: { enableImplicitConversion: true }, // class-transformer
     }),
   );
 
-  // ✅ Configuración de Swagger
+  // Swagger
   const config = new DocumentBuilder()
     .setTitle('Ventas & Inventario API')
-    .setDescription('Endpoints de Auth, Users, Health. Proximamente Products/Inventory.')
+    .setDescription('Endpoints de Auth, Users, Products, etc.')
     .setVersion('0.1.0')
     .addBearerAuth()
     .build();
@@ -27,7 +37,10 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
 
-  // ✅ Arrancar servidor
-  await app.listen(3000);
+  // Arrancar servidor
+  const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
+  await app.listen(PORT);
+  console.log(`🚀 API lista en http://localhost:${PORT}/api  | Swagger: /docs`);
 }
+
 bootstrap();

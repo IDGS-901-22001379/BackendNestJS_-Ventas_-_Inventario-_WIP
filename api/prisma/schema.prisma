@@ -7,6 +7,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/**
+ * =========================
+ * ENUMS
+ * =========================
+ */
+enum Role {
+  USER
+  ADMIN
+}
+
+/**
+ * =========================
+ * MODELOS
+ * =========================
+ */
+
+/**
+ * Usuarios
+ */
 model User {
   id        String   @id @default(cuid()) // Identificador único
   email     String   @unique // Correo único
@@ -17,7 +36,20 @@ model User {
   updatedAt DateTime @updatedAt // Fecha de última actualización
 }
 
-enum Role {
-  USER
-  ADMIN
+/**
+ * Productos
+ */
+model Product {
+  id          String   @id @default(cuid()) // Identificador único
+  sku         String   @unique @db.VarChar(48) // SKU único
+  name        String   @db.VarChar(120) // Nombre del producto
+  description String?  @db.Text // Descripción opcional
+  price       Decimal  @db.Decimal(10, 2) // Precio (usa DECIMAL para dinero)
+  stock       Int      @default(0) // Stock actual
+  active      Boolean  @default(true) // Visible/activo en el sistema
+  createdAt   DateTime @default(now()) // Fecha de creación
+  updatedAt   DateTime @updatedAt // Última actualización
+
+  @@index([name])
+  @@index([active])
 }

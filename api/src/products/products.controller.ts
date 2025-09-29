@@ -16,17 +16,19 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { QueryProductsDto } from './dto/query-products.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Roles } from '../auth/roles.decorator';
+import { RolesGuard } from '../auth/roles.guard';
 
 @ApiTags('products')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('products')
 export class ProductsController {
   constructor(private readonly service: ProductsService) {}
 
   @Get()
   list(@Query() q: QueryProductsDto) {
-    return this.service.list({ q: q.q, page: q.page, limit: q.limit });
+    // Si tu DTO ya transforma a boolean, q.active ya llega boolean|undefined
+    return this.service.findAll({ q: q.q, active: q.active });
   }
 
   @Post()
@@ -37,7 +39,7 @@ export class ProductsController {
 
   @Get(':id')
   get(@Param('id') id: string) {
-    return this.service.findById(id);
+    return this.service.findOne(id);
   }
 
   @Patch(':id')

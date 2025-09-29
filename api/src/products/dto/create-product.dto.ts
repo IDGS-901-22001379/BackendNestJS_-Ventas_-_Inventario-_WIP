@@ -1,20 +1,21 @@
-import { IsString, IsOptional, IsNumber, IsInt, Min } from 'class-validator';
+import { IsBoolean, IsInt, IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString, MaxLength } from 'class-validator';
 
 export class CreateProductDto {
-  @IsString()
-  sku: string;
+  @IsString() @IsNotEmpty() @MaxLength(48)
+  sku!: string;
 
-  @IsString()
-  name: string;
+  @IsString() @IsNotEmpty() @MaxLength(120)
+  name!: string;
 
-  @IsOptional()
-  @IsString()
+  @IsOptional() @IsString()
   description?: string;
 
-  @IsNumber()
-  price: number;
+  @IsNumber({ maxDecimalPlaces: 2 }) @IsPositive()
+  price!: number; // Prisma Decimal acepta number aquí
 
-  @IsInt()
-  @Min(0)
-  stock: number;
+  @IsInt() @IsOptional()
+  stock?: number = 0;
+
+  @IsBoolean() @IsOptional()
+  active?: boolean = true;
 }

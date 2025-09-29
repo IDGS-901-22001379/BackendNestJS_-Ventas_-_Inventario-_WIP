@@ -1,14 +1,17 @@
+// src/auth/jwt.strategy.ts
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 import { Role } from '@prisma/client';
 
-type JwtPayload = {
-  sub: string;
+export type JwtPayload = {
+  sub: string; // user id
   email: string;
-  role: Role;
+  role: Role; // 'ADMIN' | 'USER'
 };
+
+type AuthUser = { sub: string; email: string; role: Role }; // lo que quedará en req.user
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -20,8 +23,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  // Sin async para evitar require-await y con tipo fuerte
-  validate(payload: JwtPayload) {
-    return { userId: payload.sub, email: payload.email, role: payload.role };
+  // Lo que retornes aquí estará en req.user
+  validate(payload: JwtPayload): AuthUser {
+    // ⚠️ Deja este log solo mientras depuras
+    console.log('JWT payload validate():', payload);
+    return { sub: payload.sub, email: payload.email, role: payload.role };
   }
 }
