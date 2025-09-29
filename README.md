@@ -24,18 +24,31 @@ Swagger — Documentación interactiva.
 
 ProgramaIntegralVentas/
 │── api/                     # Código fuente principal
+
 │   ├── prisma/              # Configuración de Prisma y esquema de DB (schema + migrations)
+
 │   ├── src/                 # Código NestJS
+
 │   │   ├── auth/            # Módulo de autenticación (login, register, JWT, roles)
+
 │   │   ├── users/           # Módulo de usuarios (servicios y DTO)
+
 │   │   ├── products/        # Módulo de productos (CRUD + roles)
+
 │   │   ├── app.module.ts
+
 │   │   └── main.ts
+
 │   ├── docker-compose.yml   # PostgreSQL en Docker
+
 │   ├── .env                 # Variables de entorno
+
 │   ├── package.json         # Dependencias y scripts
+
 │   ├── pnpm-lock.yaml       # Lockfile de pnpm
+
 │   └── README.md            # Documentación
+
 
 
 
