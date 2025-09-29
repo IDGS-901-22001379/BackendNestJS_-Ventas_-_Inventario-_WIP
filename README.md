@@ -1,114 +1,121 @@
-# 📦 Programa Integral de Ventas
+📦 Programa Integral de Ventas
+Este es un proyecto en desarrollo construido con NestJS, Prisma ORM y PostgreSQL.
+Actualmente cuenta con conexión estable a la base de datos y autenticación JWT funcional.
 
-Este es un proyecto en desarrollo construido con **NestJS**, **Prisma ORM** y **PostgreSQL**.  
-Actualmente se encuentra en la fase inicial, con conexión establecida a la base de datos y un sistema de **autenticación con JWT** funcional.  
+El objetivo es convertirlo en una API escalable para la gestión integral de ventas, usuarios, productos y más módulos.
 
-El objetivo es convertirlo en una **API escalable** para la gestión integral de ventas, usuarios y otros módulos.
+🚀 Tecnologías utilizadas
 
----
+NestJS — Framework backend modular.
 
-## 🚀 Tecnologías utilizadas
+Prisma ORM — ORM para la conexión con PostgreSQL.
 
-- [NestJS](https://nestjs.com/) — Framework backend modular.
-- [Prisma ORM](https://www.prisma.io/) — ORM para la conexión con PostgreSQL.
-- [PostgreSQL](https://www.postgresql.org/) — Base de datos relacional.
-- [Passport + JWT](https://docs.nestjs.com/security/authentication) — Autenticación con tokens.
-- [bcrypt](https://www.npmjs.com/package/bcrypt) — Hasheo de contraseñas.
-- [Docker](https://www.docker.com/) — Configuración lista para contenedor de base de datos.
+PostgreSQL — Base de datos relacional.
 
----
+Passport + JWT — Autenticación con tokens.
 
-## 📂 Estructura del proyecto
+bcrypt — Hasheo de contraseñas.
+
+Docker — Contenedor de base de datos listo.
+
+Swagger — Documentación interactiva.
+
+📂 Estructura del proyecto
 
 ProgramaIntegralVentas/
-│── api/ # Código fuente principal
+│── api/                     # Código fuente principal
+│   ├── prisma/              # Configuración de Prisma y esquema de DB (schema + migrations)
+│   ├── src/                 # Código NestJS
+│   │   ├── auth/            # Módulo de autenticación (login, register, JWT, roles)
+│   │   ├── users/           # Módulo de usuarios (servicios y DTO)
+│   │   ├── products/        # Módulo de productos (CRUD + roles)
+│   │   ├── app.module.ts
+│   │   └── main.ts
+│   ├── docker-compose.yml   # PostgreSQL en Docker
+│   ├── .env                 # Variables de entorno
+│   ├── package.json         # Dependencias y scripts
+│   ├── pnpm-lock.yaml       # Lockfile de pnpm
+│   └── README.md            # Documentación
 
-│ ├── prisma/ # Configuración de Prisma y esquema de DB
 
-│ ├── src/ # Código NestJS
 
-│ │ ├── auth/ # Módulo de autenticación (login, register, JWT)
+⚙️ Instalación y ejecución
 
-│ │ ├── users/ # Módulo de usuarios (CRUD)
+Clonar el repositorio
+git clone https://github.com/TU_USUARIO/BackendNestJS_-Ventas_-_Inventario-_WIP.git
+cd ProgramaIntegralVentas/api
 
-│ │ └── app.module.ts
+Variables de entorno
+Crear .env con al menos:
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/appdb?schema=public
+JWT_SECRET=tu-secreto-largo-unico
 
-│ └── .env # Variables de entorno
-
-│── docker-compose.yml # Configuración de PostgreSQL en Docker
-
-│── package.json # Dependencias y scripts
-
-│── pnpm-lock.yaml # Lockfile de pnpm
-
-│── README.md # Documentación
-
----
-
-## ⚙️ Instalación y ejecución
-
-1. **Clonar el repositorio**
-   ```bash
-   git clone https://github.com/TU_USUARIO/BackendNestJS_-Ventas_-_Inventario-_WIP.git
-   cd ProgramaIntegralVentas/api
 Instalar dependencias
-
 pnpm install
+
 Levantar PostgreSQL con Docker
-
 docker-compose up -d
+
 Aplicar migraciones de Prisma
-
 pnpm prisma migrate dev
+
 Iniciar la API
-
 pnpm start:dev
+
+Base URL: http://localhost:3000/api
+
+Swagger: http://localhost:3000/docs (usar Authorize con Bearer <token>)
+
 🔑 Autenticación JWT
-Actualmente ya están disponibles los siguientes endpoints:
-Registro de usuario
-POST http://localhost:3000/auth/register
+Endpoints disponibles:
 
-Body ejemplo:
-{
-  "email": "admin@mail.com",
-  "password": "secret123",
-  "name": "Admin"
-}
-Login de usuario
-POST http://localhost:3000/auth/login
+Registro de usuario — POST http://localhost:3000/api/auth/register
+Body ejemplo: { "email": "admin@mail.com", "password": "secret123", "name": "Admin" }
 
-Body ejemplo:
+Login de usuario — POST http://localhost:3000/api/auth/login
+Body ejemplo: { "email": "admin@mail.com", "password": "secret123" }
+✅ Devuelve un token JWT y datos básicos del usuario.
 
-{
-  "email": "admin@mail.com",
-  "password": "secret123"
-}
-✅ Devuelve un token JWT.
+Perfil autenticado — GET http://localhost:3000/api/users/me
+Header: Authorization: Bearer TOKEN_AQUI
 
-Perfil de usuario autenticado
-GET http://localhost:3000/users/me
+📦 Productos (JWT requerido; acciones de escritura requieren ADMIN)
 
-Header:
+Listar/filtrar — GET http://localhost:3000/api/products (query opcional: q, active=true|false)
 
-Authorization: Bearer TOKEN_AQUI
+Detalle — GET http://localhost:3000/api/products/:id
+
+Crear — POST http://localhost:3000/api/products (rol ADMIN)
+
+Actualizar — PATCH http://localhost:3000/api/products/:id (rol ADMIN)
+
+Eliminar — DELETE http://localhost:3000/api/products/:id (rol ADMIN)
+
 📌 Estado del proyecto
-🔹 Actualmente implementado:
+
+🔹 Implementado actualmente
 
 Conexión NestJS ↔ Prisma ↔ PostgreSQL.
 
 Autenticación con JWT (register/login).
 
-CRUD básico de usuarios.
+Roles de usuario (USER/ADMIN) y guards de autorización.
 
-🔹 Próximos pasos:
+CRUD base de usuarios (servicios) y productos (módulo completo).
 
-Gestión de productos e inventario.
+Documentación Swagger y prefijo global /api.
+
+🔹 Próximos pasos
+
+Paginación/orden avanzado en productos.
+
+Gestión de inventario (entradas/salidas).
 
 Módulos de ventas y reportes.
 
-Roles y permisos avanzados.
+Roles/permisos más granulares.
 
 Integración de dashboard analítico.
 
 🤝 Contribución
-Este proyecto sigue en desarrollo y está pensado para ser escalable.
+Proyecto en desarrollo, pensado para crecer por módulos.
