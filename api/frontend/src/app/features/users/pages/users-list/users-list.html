@@ -1,0 +1,42 @@
+<section class="card">
+  <header class="card-header">
+    <h2>Usuarios</h2>
+    <div class="tools">
+      <input
+        [ngModel]="search()"
+        (ngModelChange)="search.set($event)"
+        placeholder="Buscar por nombre o email..."
+      />
+      <button (click)="page.set(1); load()">Buscar</button>
+    </div>
+  </header>
+
+  <div *ngIf="loading()">Cargando...</div>
+  <div *ngIf="error()" class="error">{{ error() }}</div>
+
+  <table *ngIf="!loading() && users().length" class="table">
+    <thead>
+      <tr>
+        <th>ID</th><th>Nombre</th><th>Email</th><th>Rol</th><th>Creación</th><th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let u of users()">
+        <td>{{u.id}}</td>
+        <td>{{u.name || '—'}}</td>
+        <td>{{u.email}}</td>
+        <td>{{u.role || '—'}}</td>
+        <td>{{u.createdAt | date:'short'}}</td>
+        <td><a [routerLink]="['/users', u.id]">Ver</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!loading() && !users().length">No hay usuarios.</p>
+
+  <footer class="pager" *ngIf="total() > pageSize()">
+    <button (click)="go(page()-1)">«</button>
+    <span>Página {{page()}} / {{totalPages()}}</span>
+    <button (click)="go(page()+1)">»</button>
+  </footer>
+</section>

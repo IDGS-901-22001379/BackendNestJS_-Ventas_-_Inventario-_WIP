@@ -1,0 +1,14 @@
+<section class="card">
+  <header class="card-header"><h2>Perfil de usuario</h2></header>
+
+  <div *ngIf="error()" class="error">{{ error() }}</div>
+  <div *ngIf="!user() && !error()">Cargando...</div>
+
+  <div *ngIf="user() as u" class="content">
+    <p><strong>ID:</strong> {{u.id}}</p>
+    <p><strong>Nombre:</strong> {{u.name || '—'}}</p>
+    <p><strong>Email:</strong> {{u.email}}</p>
+    <p><strong>Rol:</strong> {{u.role || '—'}}</p>
+    <p><strong>Creado:</strong> {{u.createdAt | date:'medium'}}</p>
+  </div>
+</section>

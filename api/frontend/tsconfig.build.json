@@ -1,12 +1,14 @@
 {
   "extends": "./tsconfig.json",
-  "compilerOptions": { "outDir": "./dist" },
+  "compilerOptions": {
+    "outDir": "./dist"
+  },
   "include": ["src/**/*.ts"],
   "exclude": [
     "node_modules",
     "test",
     "dist",
     "**/*.spec.ts",
-    "frontend/**"          // 👈 importante: es carpeta hija, NO "../frontend"
+    "../frontend/**"        // 👈 excluye TODO el front
   ]
 }

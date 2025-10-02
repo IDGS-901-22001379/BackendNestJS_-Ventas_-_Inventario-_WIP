@@ -1,0 +1,12 @@
+<nav class="navbar">
+  <a routerLink="/" class="brand">Programa Integral de Ventas</a>
+  <ul class="menu">
+    <li><a routerLink="/products" routerLinkActive="active">Productos</a></li>
+    <li><a routerLink="/users" routerLinkActive="active">Usuarios</a></li>
+    <li><a routerLink="/users/me" routerLinkActive="active">Mi perfil</a></li>
+  </ul>
+  <div class="auth">
+    <button *ngIf="auth.token" (click)="logout()">Salir</button>
+    <a *ngIf="!auth.token" routerLink="/auth/login">Entrar</a>
+  </div>
+</nav>
