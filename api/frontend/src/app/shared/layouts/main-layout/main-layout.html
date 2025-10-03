@@ -1,4 +1,97 @@
-<app-navbar></app-navbar>
-<main class="container">
-  <router-outlet></router-outlet>
-</main>
+<!-- Botón para abrir el sidebar en móvil -->
+<button class="btn btn-light sidebar-toggle d-lg-none" type="button"
+        data-bs-toggle="offcanvas" data-bs-target="#appSidebar" aria-controls="appSidebar">
+  <i class="bi bi-list"></i>
+</button>
+
+<div class="app-shell">
+  <!-- Sidebar (lg: fijo / <lg: offcanvas) -->
+  <div class="sidebar d-none d-lg-flex flex-column">
+    <div class="brand d-flex align-items-center gap-2">
+      <i class="bi bi-grid-fill"></i> Sidemenu
+    </div>
+
+    <div class="section-title">Principal</div>
+    <nav class="nav flex-column px-1">
+      <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
+        <i class="bi bi-speedometer2"></i> Dashboard
+      </a>
+      <a class="nav-link" routerLink="/home" routerLinkActive="active">
+        <i class="bi bi-house"></i> Home
+      </a>
+
+      <!-- Products con colapso -->
+      <div class="nav-item">
+        <a class="nav-link" data-bs-toggle="collapse" href="#productsMenu" role="button"
+           aria-expanded="false" aria-controls="productsMenu">
+          <i class="bi bi-box-seam"></i> Products <i class="ms-auto bi bi-caret-down-fill small"></i>
+        </a>
+        <div class="collapse ps-3" id="productsMenu">
+          <a class="nav-link" routerLink="/products" routerLinkActive="active">
+            <i class="bi bi-list-ul"></i> Listado
+          </a>
+          <a class="nav-link" routerLink="/products/new" routerLinkActive="active">
+            <i class="bi bi-plus-circle"></i> Nuevo
+          </a>
+        </div>
+      </div>
+
+      <a class="nav-link" routerLink="/customers" routerLinkActive="active">
+        <i class="bi bi-people"></i> Customers
+      </a>
+    </nav>
+
+    <div class="mt-auto p-3 border-top border-dark-subtle">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-person-circle"></i>
+          <span>{{ auth.currentUser?.email || 'Invitado' }}</span>
+        </div>
+        <div class="dropdown">
+          <button class="btn btn-sm btn-outline-light dropdown-toggle" data-bs-toggle="dropdown">
+            Opciones
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" routerLink="/users/me"><i class="bi bi-person"></i> Perfil</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><button class="dropdown-item text-danger" (click)="logout()">
+              <i class="bi bi-box-arrow-right"></i> Salir
+            </button></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Offcanvas para móvil -->
+  <div class="offcanvas offcanvas-start text-bg-dark d-lg-none" tabindex="-1" id="appSidebar">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title"><i class="bi bi-grid-fill"></i> Sidemenu</h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+      <nav class="nav flex-column px-2">
+        <a class="nav-link text-white" routerLink="/dashboard" data-bs-dismiss="offcanvas"><i class="bi bi-speedometer2"></i> Dashboard</a>
+        <a class="nav-link text-white" routerLink="/home" data-bs-dismiss="offcanvas"><i class="bi bi-house"></i> Home</a>
+        <a class="nav-link text-white" data-bs-toggle="collapse" href="#productsMenuMobile"><i class="bi bi-box-seam"></i> Products</a>
+        <div class="collapse ps-3" id="productsMenuMobile">
+          <a class="nav-link text-white-50" routerLink="/products" data-bs-dismiss="offcanvas"><i class="bi bi-list-ul"></i> Listado</a>
+          <a class="nav-link text-white-50" routerLink="/products/new" data-bs-dismiss="offcanvas"><i class="bi bi-plus-circle"></i> Nuevo</a>
+        </div>
+        <a class="nav-link text-white" routerLink="/customers" data-bs-dismiss="offcanvas"><i class="bi bi-people"></i> Customers</a>
+      </nav>
+      <div class="mt-auto p-3 border-top border-secondary">
+        <button class="btn btn-outline-light w-100" (click)="logout()" data-bs-dismiss="offcanvas">
+          <i class="bi bi-box-arrow-right"></i> Salir
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENIDO -->
+  <main class="content container-fluid">
+    <div class="card-glass p-4">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

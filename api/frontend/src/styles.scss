@@ -1,39 +1,85 @@
+:root{
+  --brand-blue: #4567ff;        /* azul */
+  --brand-blue-2: #3858e0;      /* azul más oscuro */
+  --brand-dark: #1b1f2a;        /* gris muy oscuro */
+  --brand-dark-2: #242a36;      /* gris oscuro */
+  --brand-text: #e9edf5;        /* texto claro */
+}
 
-// Include theming for Angular Material with `mat.theme()`.
-// This Sass mixin will define CSS variables that are used for styling Angular Material
-// components according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
-@use '@angular/material' as mat;
-
-html {
-  @include mat.theme((
-    color: (
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
+html, body {
+  height: 100%;
 }
 
 body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
-  color-scheme: light;
-
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-  font: var(--mat-sys-body-medium);
-
-  // Reset the user agent margin.
+  font-family: 'Roboto', system-ui, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', sans-serif;
   margin: 0;
+  background: linear-gradient(180deg, var(--brand-blue) 0%, var(--brand-blue-2) 100%);
+  color: var(--brand-text);
 }
-/* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* ---- LAYOUT ---- */
+.app-shell {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100dvh;
+}
+
+.sidebar {
+  background: var(--brand-dark);
+  color: var(--brand-text);
+}
+
+.sidebar .brand {
+  padding: 16px 18px;
+  font-weight: 700;
+  letter-spacing: .3px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.sidebar .nav-link {
+  color: #cfd6e5;
+  padding: 10px 16px;
+  border-radius: 10px;
+  margin: 4px 8px;
+  display: flex; align-items: center; gap: 10px;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+  color: #fff;
+  background: #2b3140;
+}
+
+.sidebar .section-title {
+  font-size: .8rem;
+  opacity: .7;
+  letter-spacing: .08em;
+  padding: 10px 18px 0;
+  text-transform: uppercase;
+}
+
+.content {
+  background: transparent;
+  padding: 20px;
+}
+
+.card-glass {
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.15);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  color: #fff;
+}
+
+/* Botón redondo para togglear el sidebar en móviles */
+.sidebar-toggle {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 1040;
+}
+@media (max-width: 992px){
+  .app-shell {
+    grid-template-columns: 1fr; /* el offcanvas maneja el sidebar */
+  }
+}
